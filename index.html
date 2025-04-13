@@ -4,13 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Football Team Website</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --vh: 100vh;
+    }
+
     * {
       margin: 0;
       padding: 0;
       scroll-behavior: smooth;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
 
     body, html {
@@ -25,7 +33,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      height: calc(var(--vh, 1vh) * 100);
       background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3)), url('./images/bg-home.jpeg') center/cover no-repeat;
       text-align: center;
       position: relative;
@@ -192,15 +200,16 @@
 </head>
 <body>
 
-  <div class="menu" id="mainMenu">
-    <h1>Team Name</h1>
-    <a href="#" onclick="showSection('teamSection')">Players</a>
-    <a href="#" onclick="showSection('fixturesSection')">Fixtures</a>
-    <a href="#" onclick="showSection('resultsSection')">Match Results</a>
-    <a href="#" onclick="showSection('goalsSection')">Top Goal Scorers</a>
-    <a href="#" onclick="showSection('assistsSection')">Top Assisters</a>
-  </div>
+<div class="menu" id="mainMenu">
+  <h1 class="team-title">🏟️ Welcome to the Home of <span class="team-name">Blue Towers FC</span></h1>
+  <a href="javascript:void(0)" onclick="showSection('teamSection')">⚽ Team Players</a>
+  <a href="javascript:void(0)" onclick="showSection('fixturesSection')">📅 Fixtures</a>
+  <a href="javascript:void(0)" onclick="showSection('resultsSection')">📊 Match Results</a>
+  <a href="javascript:void(0)" onclick="showSection('goalsSection')">🥅 Top Goal Scorers</a>
+  <a href="javascript:void(0)" onclick="showSection('assistsSection')">🎯 Top Assisters</a>
+</div>
 
+<main>
   <div class="content-section bg-team" id="teamSection">
     <h2>Team Players</h2>
     <ul>
@@ -216,7 +225,7 @@
       <li>#10 - Kuhlekonke Shabalala <span class="position">(Forward)</span></li>
       <li>#11 - Khethokuhle Nkambule <span class="position">(Defender)</span></li>
       <li>#12 - Sbongiseni Memela <span class="position">(Midfielder)</span></li>
-      <li>#13 - Sbani Sishi <span class="position">(Midfielder)</span></li>
+      <li>#20 - Sbani Sishi <span class="position">(Midfielder)</span></li>
       <li>#14 - Phumelela Maqhawe Mtembu <span class="position">(Forward)</span></li>
       <li>#15 - Ayabonga Dina <span class="position">(Goalkeeper)</span></li>
       <li>#16 - Mlungisi Mthethwa <span class="position">(Midfielder)</span></li>
@@ -251,7 +260,6 @@
     <button class="back-btn" onclick="goBack()">Back to Menu</button>
   </div>
 
-  
   <div class="content-section bg-goals" id="goalsSection">
     <h2>Top Goal Scorers</h2>
     <table>
@@ -285,23 +293,37 @@
     </table>
     <button class="back-btn" onclick="goBack()">← Back</button>
   </div>
+</main>
 
-  <script>
-    function showSection(sectionId) {
-      document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.remove('active');
-      });
-      document.getElementById('mainMenu').style.display = 'none';
-      document.getElementById(sectionId).classList.add('active');
-    }
+<script>
+  function showSection(sectionId) {
+    document.querySelectorAll('.content-section').forEach(section => {
+      section.classList.remove('active');
+    });
+    document.getElementById('mainMenu').style.display = 'none';
+    document.getElementById(sectionId).classList.add('active');
+  }
 
-    function goBack() {
-      document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.remove('active');
-      });
-      document.getElementById('mainMenu').style.display = 'flex';
-    }
-  </script>
+  function goBack() {
+    document.querySelectorAll('.content-section').forEach(section => {
+      section.classList.remove('active');
+    });
+    document.getElementById('mainMenu').style.display = 'flex';
+  }
+
+  // iOS 100vh fix
+  function setVhUnit() {
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+  }
+  window.addEventListener('resize', setVhUnit);
+  window.addEventListener('orientationchange', setVhUnit);
+  setVhUnit();
+
+  // iOS scroll fix for fixed elements
+  document.querySelectorAll('.content-section').forEach(section => {
+    section.addEventListener('touchmove', () => {}, { passive: true });
+  });
+</script>
 
 </body>
 </html>
