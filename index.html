@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Football Team Website</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      overflow-x: hidden;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3)), url('./images/bg-home.jpeg') center/cover no-repeat;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      pointer-events: auto;
+    }
+
+    .menu h1 {
+      font-size: 3.5rem;
+      color: #ffffff;
+      margin-bottom: 40px;
+      text-shadow: 3px 3px 10px rgba(0,0,0,0.8);
+      background: linear-gradient(to right, #00ffcc, #00b386);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .menu a {
+      text-decoration: none;
+      background: linear-gradient(to right, #00b386, #007b3a);
+      color: white;
+      padding: 15px 35px;
+      margin: 12px auto;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      transition: 0.3s;
+      width: 260px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      touch-action: manipulation;
+    }
+
+    .menu a:hover,
+    .back-btn:hover {
+      background: linear-gradient(to right, #009e60, #005c2d);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      background: rgba(0, 123, 58, 0.95);
+      padding: 20px 35px;
+      border-radius: 12px;
+      box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+      font-size: 2rem;
+      color: white;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    li {
+      margin: 15px 0;
+      font-size: 1.1rem;
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: background 0.3s ease;
+      color: white;
+    }
+
+    li:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    table {
+      width: 100%;
+      max-width: 600px;
+      border-collapse: collapse;
+      margin: 25px auto;
+      background: rgba(255,255,255,0.95);
+      color: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 2px 2px 12px rgba(0,0,0,0.25);
+    }
+
+    table th, table td {
+      padding: 14px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    table th {
+      background: linear-gradient(to right, #007b3a, #005c2d);
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 35px;
+      padding: 14px 30px;
+      background: linear-gradient(to right, #007b3a, #005c2d);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.3s;
+      width: 260px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      touch-action: manipulation;
+    }
+
+    .content-section {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      display: none;
+      padding: 50px 20px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-blend-mode: overlay;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 2;
+      pointer-events: auto;
+    }
+
+    .bg-team      { background-image: url('./images/bg-players.jpg'); }
+    .bg-fixtures  { background-image: url('./images/bg-fixtures.jpg'); }
+    .bg-results   { background-image: url('./images/bg-results.jpg'); }
+    .bg-goals     { background-image: url('./images/bg-goals.jpg'); }
+    .bg-assists   { background-image: url('./images/bg-assists.jpg'); }
+
+    .active {
+      display: block !important;
+    }
+
+    .position {
+      font-style: italic;
+      color: #ccc;
+      margin-left: 5px;
+    }
+
+    @media (min-width: 768px) {
+      .menu a {
+        padding: 18px 45px;
+        font-size: 1.3rem;
+      }
+
+      h2 {
+        font-size: 2.6rem;
+      }
+
+      li {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="menu" id="mainMenu">
+    <h1>Team Name</h1>
+    <a href="#" onclick="showSection('teamSection')">Players</a>
+    <a href="#" onclick="showSection('fixturesSection')">Fixtures</a>
+    <a href="#" onclick="showSection('resultsSection')">Match Results</a>
+    <a href="#" onclick="showSection('goalsSection')">Top Goal Scorers</a>
+    <a href="#" onclick="showSection('assistsSection')">Top Assisters</a>
+  </div>
+
+  <div class="content-section bg-team" id="teamSection">
+    <h2>Team Players</h2>
+    <ul>
+      <li>#13 - Siyathokoza Nzuza <span class="position">(Midfielder)</span></li>
+      <li>#4 - Thulani Ntuli <span class="position">(Defender)</span></li>
+      <li>#3 - Lindelani Mzomuhle Nhleko <span class="position">(Midfielder)</span></li>
+      <li>#4 - Ntethelelo Buthelezi <span class="position">(Defender)</span></li>
+      <li>#5 - Lwazi Mpilwenhle Mdladla <span class="position">(Midfielder)</span></li>
+      <li>#6 - Lungelo Dubazane <span class="position">(Forward)</span></li>
+      <li>#7 - Sandile Gumede <span class="position">(Defender)</span></li>
+      <li>#8 - Malibongwe Magubane <span class="position">(Midfielder)</span></li>
+      <li>#9 - Thembelani Ngubane <span class="position">(Forward)</span></li>
+      <li>#10 - Kuhlekonke Shabalala <span class="position">(Forward)</span></li>
+      <li>#11 - Khethokuhle Nkambule <span class="position">(Defender)</span></li>
+      <li>#12 - Sbongiseni Memela <span class="position">(Midfielder)</span></li>
+      <li>#13 - Sbani Sishi <span class="position">(Midfielder)</span></li>
+      <li>#14 - Phumelela Maqhawe Mtembu <span class="position">(Forward)</span></li>
+      <li>#15 - Ayabonga Dina <span class="position">(Goalkeeper)</span></li>
+      <li>#16 - Mlungisi Mthethwa <span class="position">(Midfielder)</span></li>
+      <li>#17 - Lethukuthula Thwala <span class="position">(Defender)</span></li>
+      <li>#18 - Asanda Ngwane <span class="position">(Forward)</span></li>
+      <li>#19 - Vuyo Msomi <span class="position">(Midfielder)</span></li>
+    </ul>
+    <button class="back-btn" onclick="goBack()">← Back</button>
+  </div>
+
+  <div class="content-section bg-fixtures" id="fixturesSection">
+    <h2>Fixtures</h2>
+    <ul>
+      <li><strong>MD 2</strong> - vs Blue Strategy FC</li>
+      <li><strong>MD 3</strong> - vs Kingston FC</li>
+    </ul>
+    <button class="back-btn" onclick="goBack()">← Back</button>
+  </div>
+
+  <div class="content-section bg-results" id="resultsSection">
+    <h2 style="color: #ffd700; font-size: 2.5rem; text-align: center; margin-bottom: 30px;">📊 Match Results</h2>
+    <div style="max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.5);">
+      <div style="margin-bottom: 20px; padding: 15px; background: rgba(0, 123, 58, 0.8); border-radius: 10px;">
+        <p style="font-size: 1.2rem; color: white; margin-bottom: 8px;"><strong>MD 1 - April 12</strong></p>
+        <p style="color: #fff; font-size: 1rem;">
+          🟢 <strong style="color: #00ff99;">Blue Towers FC</strong> <strong>1-0</strong> Warriors FC
+        </p>
+        <p style="color: #fff; margin-top: 8px;">⚽ <span style="color: #ffd700;">Goal:</span> <strong>Asanda</strong></p>
+        <p style="color: #fff;">🎯 <span style="color: #87cefa;">Assist:</span> <strong>Lwazi</strong></p>
+      </div>
+    </div>
+    <button class="back-btn" onclick="goBack()">Back to Menu</button>
+  </div>
+
+  
+  <div class="content-section bg-goals" id="goalsSection">
+    <h2>Top Goal Scorers</h2>
+    <table>
+      <thead>
+        <tr><th>Player</th><th>Goals</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Asanda Ngwane</td><td>1</td></tr>
+        <tr><td>Lwazi Mdladla</td><td>0</td></tr>
+        <tr><td>Thembelani Ngubane</td><td>0</td></tr>
+        <tr><td>Kuhlekonke Shabalala</td><td>0</td></tr>
+        <tr><td>Lethukuthula Thwala</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <button class="back-btn" onclick="goBack()">← Back</button>
+  </div>
+
+  <div class="content-section bg-assists" id="assistsSection">
+    <h2>Top Assisters</h2>
+    <table>
+      <thead>
+        <tr><th>Player</th><th>Assists</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lwazi Mdladla</td><td>1</td></tr>
+        <tr><td>Sandile Gumede</td><td>0</td></tr>
+        <tr><td>Thembelani Ngubane</td><td>0</td></tr>
+        <tr><td>Lungelo Dubazane</td><td>0</td></tr>
+        <tr><td>Kuhlekonke Shabalala</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <button class="back-btn" onclick="goBack()">← Back</button>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById('mainMenu').style.display = 'none';
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    function goBack() {
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById('mainMenu').style.display = 'flex';
+    }
+  </script>
+
+</body>
+</html>
