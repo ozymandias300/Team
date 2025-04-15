@@ -213,20 +213,20 @@
   <div class="content-section bg-team" id="teamSection">
     <h2>Team Players</h2>
     <ul>
-      <li>#13 - Siyathokoza Nzuza <span class="position">(Midfielder)</span></li>
+      <li>#16 - Siyathokoza Nzuza <span class="position">(Midfielder)</span></li>
       <li>#4 - Thulani Ntuli <span class="position">(Defender)</span></li>
       <li>#3 - Lindelani Mzomuhle Nhleko <span class="position">(Midfielder)</span></li>
-      <li>#4 - Ntethelelo Buthelezi <span class="position">(Defender)</span></li>
+      <li>#13 - Ntethelelo Buthelezi <span class="position">(Defender)</span></li>
       <li>#5 - Lwazi Mpilwenhle Mdladla <span class="position">(Midfielder)</span></li>
-      <li>#6 - Lungelo Dubazane <span class="position">(Forward)</span></li>
+      <li>#6 - Lungelo Dubazane <span class="position">(Defender)</span></li>
       <li>#7 - Sandile Gumede <span class="position">(Defender)</span></li>
       <li>#8 - Malibongwe Magubane <span class="position">(Midfielder)</span></li>
       <li>#9 - Thembelani Ngubane <span class="position">(Forward)</span></li>
       <li>#10 - Kuhlekonke Shabalala <span class="position">(Forward)</span></li>
-      <li>#11 - Khethokuhle Nkambule <span class="position">(Defender)</span></li>
+      <li>#11 - Khethokuhle Nkambule <span class="position">(Midfielder)</span></li>
       <li>#12 - Sbongiseni Memela <span class="position">(Midfielder)</span></li>
       <li>#20 - Sbani Sishi <span class="position">(Midfielder)</span></li>
-      <li>#14 - Phumelela Maqhawe Mtembu <span class="position">(Forward)</span></li>
+      <li>#14 - Phumelela Maqhawe Mtembu <span class="position">(Defender)</span></li>
       <li>#15 - Ayabonga Dina <span class="position">(Goalkeeper)</span></li>
       <li>#16 - Mlungisi Mthethwa <span class="position">(Midfielder)</span></li>
       <li>#17 - Lethukuthula Thwala <span class="position">(Defender)</span></li>
@@ -323,6 +323,49 @@
   document.querySelectorAll('.content-section').forEach(section => {
     section.addEventListener('touchmove', () => {}, { passive: true });
   });
+
+  function showSection(sectionId) {
+  document.querySelectorAll('.content-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById('mainMenu').style.display = 'none';
+  document.getElementById(sectionId).classList.add('active');
+
+  // Push state to history
+  history.pushState({ section: sectionId }, '', '#' + sectionId);
+}
+
+function goBack() {
+  document.querySelectorAll('.content-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById('mainMenu').style.display = 'flex';
+
+  // Push state for main menu
+  history.pushState({ section: 'mainMenu' }, '', '#mainMenu');
+}
+
+// Handle back/forward browser buttons
+window.addEventListener('popstate', (event) => {
+  const sectionId = event.state?.section;
+
+  document.querySelectorAll('.content-section').forEach(section => {
+    section.classList.remove('active');
+  });
+
+  if (sectionId && sectionId !== 'mainMenu') {
+    document.getElementById('mainMenu').style.display = 'none';
+    document.getElementById(sectionId).classList.add('active');
+  } else {
+    document.getElementById('mainMenu').style.display = 'flex';
+  }
+});
+
+// Set initial state on load
+window.addEventListener('load', () => {
+  history.replaceState({ section: 'mainMenu' }, '', '#mainMenu');
+});
+
 </script>
 
 </body>
